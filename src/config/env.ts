@@ -1,9 +1,10 @@
-import 'dotenv/config';
+import "dotenv/config";
 
 export interface EnvConfig {
     port: number;
-    nodeEnv: 'production' | 'development' | 'test';
+    nodeEnv: "production" | "development" | "test";
     databaseUrl: string;
+    jwtSecret: string;
 }
 
 function getEnvVar(name: string, fallback?: string): string {
@@ -17,7 +18,8 @@ function getEnvVar(name: string, fallback?: string): string {
 }
 
 export const env: EnvConfig = {
-    port: Number(getEnvVar('PORT', '3000')),
-    nodeEnv: getEnvVar('NODE_ENV', 'production') as EnvConfig['nodeEnv'],
-    databaseUrl: getEnvVar('DATABASE_URL'),
+    port: Number(getEnvVar("PORT", "3000")),
+    nodeEnv: getEnvVar("NODE_ENV", "production") as EnvConfig["nodeEnv"],
+    databaseUrl: getEnvVar("DATABASE_URL"),
+    jwtSecret: getEnvVar("JWT_SECRET")
 };
