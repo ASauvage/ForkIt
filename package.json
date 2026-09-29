@@ -1,0 +1,38 @@
+{
+  "name": "forkit",
+  "version": "1.0.0",
+  "description": "Recipe manager",
+  "homepage": "https://github.com/ASauvage/ForkIt#readme",
+  "bugs": {
+    "url": "https://github.com/ASauvage/ForkIt/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ASauvage/ForkIt.git"
+  },
+  "license": "MIT",
+  "author": "ASauvage",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.4",
+    "drizzle-orm": "^0.45.3",
+    "express": "^5.2.1",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.3",
+    "@types/pg": "^8.23.1",
+    "drizzle-kit": "^0.31.11",
+    "tsc-alias": "^1.9.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "overrides": {
+    "esbuild": "^0.25.0"
+  }
+}
