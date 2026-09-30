@@ -1,7 +1,7 @@
 export interface Tag {
     id: string;
     name: string;
-    color: string;
+    color: string | null;
     created_at: Date;
     updated_at: Date;
 }
@@ -9,10 +9,12 @@ export interface Tag {
 export type TagReference = Pick<Tag, "id">;
 
 export interface SelectTagInput {
-    id?: string | Array<string>;
+    id?: Array<string>;
     name?: string;
-    created_at?: Date;
-    updated_at?: Date;
+    created_at_from?: Date;
+    created_at_to?: Date;
+    updated_at_from?: Date;
+    updated_at_to?: Date;
     limit?: number;
 }
 

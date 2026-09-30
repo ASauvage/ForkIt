@@ -2,7 +2,7 @@ export interface User {
     id: string;
     mail: string;
     name: string;
-    image_url: string;
+    image_url: string | null;
     permissions: number;
     created_at: Date;
     updated_at: Date;

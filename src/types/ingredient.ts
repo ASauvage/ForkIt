@@ -8,7 +8,7 @@ export interface Ingredient {
 export type IngredientReference = Pick<Ingredient, "id">;
 
 export interface SelectIngredientInput {
-    id?: string | Array<string>;
+    id?: Array<string>;
     name?: string;
     created_at?: Date;
     updated_at?: Date;

@@ -36,7 +36,7 @@ export type RecipeReference = Pick<Recipe, "id">;
 export type IncludedRecipeFields = Array<"owner" | "library" | "tags" | "ingredient">;
 
 export interface SelectRecipeInput {
-    id?: string | Array<string>;
+    id?: Array<string>;
     name?: string;
     owner?: string | Array<string>;
     library?: string;

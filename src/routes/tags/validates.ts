@@ -1,22 +1,19 @@
 import type { Request, Response, NextFunction } from "express";
 import { BadRequestError } from "@config/appError.js";
-import type { IncludedLibraryFields, SelectLibraryInput, CreateLibraryInput, UpdateLibraryInput } from "@app-types/library.js";
-import { isNonEmptyString, isPositiveNumber, isValidDate, isValidUuid, isEnumValue, hasQueryParams } from "@utils/validatesHelper.js";
+import type { SelectTagInput, CreateTagInput, UpdateTagInput } from "@app-types/tag.js";
+import { isNonEmptyString, isPositiveNumber, isValidDate, isValidUuid, isEnumValue, hasQueryParams, isHexColor } from "@utils/validatesHelper.js";
 
-export function validateGetLibraries(req: Request, res: Response, next: NextFunction): void {
+export function validateGetTags(req: Request, res: Response, next: NextFunction): void {
     const {
         id,
         name,
-        owner,
         created_at_from,
         created_at_to,
         updated_at_from,
         updated_at_to,
-        limit,
-        include
+        limit
     } = req.query;
-    const input: SelectLibraryInput = {};
-    const included: IncludedLibraryFields = [];
+    const input: SelectTagInput = {};
     const errors: Array<string> = [];
 
     if (id !== undefined) {
@@ -36,16 +33,6 @@ export function validateGetLibraries(req: Request, res: Response, next: NextFunc
             errors.push('"name" must be a non-empty string when provided');
         } else {
             input.name = name as string;
-        }
-    }
-
-    if (owner !== undefined) {
-        const owners = Array.isArray(owner) ? owner as Array<string> : [owner as string];
-
-        if (!owners.every(isValidUuid)) {
-            errors.push('"owner" must contain valid UUIDs when provided');
-        } else {
-            input.owner = owners;
         }
     }
 
@@ -89,29 +76,18 @@ export function validateGetLibraries(req: Request, res: Response, next: NextFunc
         }
     }
 
-    if (include !== undefined) {
-        const includes = Array.isArray(include) ? include as Array<string> : [include as string];
-
-        if (!includes.every((field) => isEnumValue(field, ["owner"]))) {
-            errors.push('"include" must contain valid fields');
-        } else {
-            included.push(...includes as IncludedLibraryFields);
-        }
-    }
-
     if (errors.length > 0) {
         next(new BadRequestError(errors.join("\n")));
         return;
     }
 
-    res.locals.selectLibraryInput = input;
-    res.locals.includedFields = included;
+    res.locals.selectTagInput = input;
     next();
 }
 
-export function validatePostLibrary(req: Request, res: Response, next: NextFunction): void {
-    const { name } = req.body;
-    const input: CreateLibraryInput = { name: "" };
+export function validatePostTag(req: Request, res: Response, next: NextFunction): void {
+    const { name, color } = req.body;
+    const input: CreateTagInput = { name: "" };
     const errors: Array<string> = [];
 
     if (!isNonEmptyString(name)) {
@@ -120,27 +96,11 @@ export function validatePostLibrary(req: Request, res: Response, next: NextFunct
         input.name = name;
     }
 
-    if (errors.length > 0) {
-        next(new BadRequestError(errors.join("\n")));
-        return;
-    }
-
-    res.locals.createLibraryInput = input;
-    next();
-}
-
-export function validateGetLibrary(req: Request, res: Response, next: NextFunction): void {
-    const { include } = req.query;
-    const included: IncludedLibraryFields = [];
-    const errors: Array<string> = [];
-
-    if (include !== undefined) {
-        const includes = Array.isArray(include) ? include as Array<string> : [include as string];
-
-        if (!includes.every((field) => isEnumValue(field, ["owner"]))) {
-            errors.push('"include" must contain valid fields');
+    if (color !== undefined) {
+        if(!isHexColor(name)) {
+            errors.push('"color" must be a valid hex color when provided');
         } else {
-            included.push(...includes as IncludedLibraryFields);
+            input.color = color;
         }
     }
 
@@ -149,13 +109,17 @@ export function validateGetLibrary(req: Request, res: Response, next: NextFuncti
         return;
     }
 
-    res.locals.includedFields = included;
+    res.locals.createTagInput = input;
     next();
 }
 
-export function validatePatchLibrary(req: Request, res: Response, next: NextFunction): void {
-    const { name } = req.body;
-    const input: UpdateLibraryInput = {};
+export function validateGetTag(req: Request, res: Response, next: NextFunction): void {
+    next();
+}
+
+export function validatePatchTag(req: Request, res: Response, next: NextFunction): void {
+    const { name, color } = req.body;
+    const input: UpdateTagInput = {};
     const errors: Array<string> = [];
 
     if (Object.keys(req.body ?? {}).length === 0) {
@@ -164,7 +128,15 @@ export function validatePatchLibrary(req: Request, res: Response, next: NextFunc
 
     if (name !== undefined) {
         if (!isNonEmptyString(name)) {
-            errors.push('"name" must be a non-empty string when provided');
+            errors.push('"name" must be a non-empty string when provided')
+        } else {
+            input.name = name;
+        }
+    }
+
+    if (color !== undefined) {
+        if (!isHexColor(color)) {
+            errors.push('"color" must be a valid hex color when provided')
         } else {
             input.name = name;
         }
@@ -175,6 +147,6 @@ export function validatePatchLibrary(req: Request, res: Response, next: NextFunc
         return;
     }
 
-    res.locals.updateLibraryInput = input;
+    res.locals.updateTagInput = input;
     next();
 }
