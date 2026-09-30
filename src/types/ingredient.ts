@@ -4,3 +4,11 @@ export interface Ingredient {
     created_at: Date;
     updated_at: Date;
 }
+
+export type IngredientReference = Pick<Ingredient, "id">;
+
+export interface CreateIngredientInput {
+    name: string;
+}
+
+export type UpdateIngredientInput = Partial<CreateIngredientInput>;
