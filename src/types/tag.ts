@@ -8,6 +8,14 @@ export interface Tag {
 
 export type TagReference = Pick<Tag, "id">;
 
+export interface SelectTagInput {
+    id?: string | Array<string>;
+    name?: string;
+    created_at?: Date;
+    updated_at?: Date;
+    limit?: number;
+}
+
 export interface CreateTagInput {
     name: string;
     color?: string;

@@ -9,6 +9,18 @@ export interface Library {
 }
 
 export type LibraryReference = Pick<Library, "id">;
+export type IncludedLibraryFields = Array<"owner">;
+
+export interface SelectLibraryInput {
+    id?: Array<string>;
+    name?: string;
+    owner?: Array<string>;
+    created_at_from?: Date;
+    created_at_to?: Date;
+    updated_at_from?: Date;
+    updated_at_to?: Date;
+    limit?: number;
+}
 
 export interface CreateLibraryInput {
     name: string;

@@ -33,6 +33,21 @@ export interface RecipeStep {
 }
 
 export type RecipeReference = Pick<Recipe, "id">;
+export type IncludedRecipeFields = Array<"owner" | "library" | "tags" | "ingredient">;
+
+export interface SelectRecipeInput {
+    id?: string | Array<string>;
+    name?: string;
+    owner?: string | Array<string>;
+    library?: string;
+    prep_time_min?: number;
+    cook_time_min?: number;
+    servings?: number;
+    created_at?: Date;
+    updated_at?: Date;
+    tag?: string | Array<string>;
+    ingredient?: string | Array<string>;
+}
 
 export interface CreateRecipeInput {
     name: string;
