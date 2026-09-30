@@ -1,7 +1,6 @@
 import express, { type Express } from "express";
 import { env } from "@config/env.js";
-
-// import { notFoundHandler, errorHandler } from "@middleware/error-handler.js";
+import { errorHandler } from "@middleware/errorHandler.js";
 // import { healthcheckRouter } from "@routes/healthcheck/routes.js";
 // import { ingredientsRouter } from "@routes/ingredients/routes.js";
 // import { librariesRouter } from "@routes/libraries/routes.js";
@@ -18,8 +17,7 @@ app.use(express.json());
 // app.use("/api/recipes", recipesRouter);
 // app.use("/api/tags", tagsRouter);
 
-// app.use(notFoundHandler);
-// app.use(errorHandler);
+app.use(errorHandler);
 
 app.listen(env.port, () => {
     console.log(`ForkIt-server listening on http://localhost:${env.port} (${env.nodeEnv})`)
