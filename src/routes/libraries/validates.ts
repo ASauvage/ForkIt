@@ -130,9 +130,14 @@ export function validatePostLibrary(req: Request, res: Response, next: NextFunct
 }
 
 export function validateGetLibrary(req: Request, res: Response, next: NextFunction): void {
+    const { id } = req.params;
     const { include } = req.query;
     const included: IncludedLibraryFields = [];
     const errors: Array<string> = [];
+
+    if (!isValidUuid(id)) {
+        errors.push('Provided ID must be a valid UUID');
+    }
 
     if (include !== undefined) {
         const includes = Array.isArray(include) ? include as Array<string> : [include as string];

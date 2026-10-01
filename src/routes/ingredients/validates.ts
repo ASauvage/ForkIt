@@ -106,6 +106,18 @@ export function validatePostIngredient(req: Request, res: Response, next: NextFu
 }
 
 export function validateGetIngredient(req: Request, res: Response, next: NextFunction): void {
+    const { id } = req.params;
+    const errors: Array<string> = [];
+
+    if (!isValidUuid(id)) {
+        errors.push('Provided ID must be a valid UUID');
+    }
+
+    if (errors.length > 0) {
+        next(new BadRequestError(errors.join("\n")));
+        return;
+    }
+
     next();
 }
 
