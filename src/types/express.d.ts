@@ -14,7 +14,7 @@ declare global {
         }
 
         interface Locals {
-            includedFields?: IncludedLibraryFields | IncludedLibraryFields
+            includedFields?: IncludedLibraryFields | IncludedRecipeFields
 
             selectInput?: SelectIngredientInput | SelectLibraryInput | SelectRecipeInput | SelectTagInput;
             createInput?: CreateIngredientInput | CreateLibraryInput | CreateRecipeInput | CreateTagInput | SessionLoginInput;

@@ -8,10 +8,10 @@ export interface Recipe {
     name: string;
     owner: User | UserReference;
     library: Library | LibraryReference;
-    description: string;
-    image_url: string;
-    prep_time_min: number;
-    cook_time_min: number;
+    description: string | null;
+    image_url: string | null;
+    prep_time_min: number | null;
+    cook_time_min: number | null;
     servings: number;
     created_at: Date;
     updated_at: Date;
@@ -33,20 +33,23 @@ export interface RecipeStep {
 }
 
 export type RecipeReference = Pick<Recipe, "id">;
-export type IncludedRecipeFields = Array<"owner" | "library" | "tags" | "ingredient">;
+export type IncludedRecipeFields = Array<"owner" | "library" | "tag" | "ingredient">;
 
 export interface SelectRecipeInput {
     id?: Array<string>;
     name?: string;
-    owner?: string | Array<string>;
+    owner?: Array<string>;
     library?: string;
     prep_time_min?: number;
     cook_time_min?: number;
     servings?: number;
-    created_at?: Date;
-    updated_at?: Date;
-    tag?: string | Array<string>;
-    ingredient?: string | Array<string>;
+    created_at_from?: Date;
+    created_at_to?: Date;
+    updated_at_from?: Date;
+    updated_at_to?: Date;
+    tag?: Array<string>;
+    ingredient?: Array<string>;
+    limit?: number;
 }
 
 export interface CreateRecipeInput {
@@ -57,8 +60,13 @@ export interface CreateRecipeInput {
     prep_time_min?: number;
     cook_time_min?: number;
     servings: number;
-    tags: Array<string>;
-    ingredients: Array<RecipeIngredient>;
+    tags?: Array<string>;
+    ingredients: Array<{
+        ingredient: string;
+        quantity: number;
+        unit: string | null;
+        notes: string | null;
+    }>;
     steps: Array<string>;
 }
 

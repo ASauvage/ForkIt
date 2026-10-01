@@ -32,7 +32,7 @@ export function validateGetIngredients(req: Request, res: Response, next: NextFu
         if (!isNonEmptyString(name)) {
             errors.push('"name" must be a non-empty string when provided');
         } else {
-            input.name = name as string;
+            input.name = name;
         }
     }
 
@@ -40,7 +40,7 @@ export function validateGetIngredients(req: Request, res: Response, next: NextFu
         if (!isValidDate(created_at_from)) {
             errors.push('"created_at_from" must be a valid date when provided');
         } else {
-            input.created_at_from = new Date(created_at_from as string);
+            input.created_at_from = new Date(created_at_from);
         }
     }
 
@@ -48,7 +48,7 @@ export function validateGetIngredients(req: Request, res: Response, next: NextFu
         if (!isValidDate(created_at_to)) {
             errors.push('"created_at_to" must be a valid date when provided');
         } else {
-            input.created_at_to = new Date(created_at_to as string);
+            input.created_at_to = new Date(created_at_to);
         }
     }
 
@@ -56,7 +56,7 @@ export function validateGetIngredients(req: Request, res: Response, next: NextFu
         if (!isValidDate(updated_at_from)) {
             errors.push('"updated_at_from" must be a valid date when provided');
         } else {
-            input.updated_at_from = new Date(updated_at_from as string);
+            input.updated_at_from = new Date(updated_at_from);
         }
     }
 
@@ -64,7 +64,7 @@ export function validateGetIngredients(req: Request, res: Response, next: NextFu
         if (!isValidDate(updated_at_to)) {
             errors.push('"updated_at_to" must be a valid date when provided');
         } else {
-            input.updated_at_to = new Date(updated_at_to as string);
+            input.updated_at_to = new Date(updated_at_to);
         }
     }
 
@@ -144,5 +144,21 @@ export function validatePatchIngredient(req: Request, res: Response, next: NextF
     }
 
     res.locals.updateInput = input;
+    next();
+}
+
+export function validateDeleteIngredient(req: Request, res: Response, next: NextFunction): void {
+    const { id } = req.params;
+    const errors: Array<string> = [];
+
+    if (!isValidUuid(id)) {
+        errors.push('Provided ID must be a valid UUID');
+    }
+
+    if (errors.length > 0) {
+        next(new BadRequestError(errors.join("\n")));
+        return;
+    }
+
     next();
 }

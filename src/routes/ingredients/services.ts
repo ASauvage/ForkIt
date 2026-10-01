@@ -6,29 +6,12 @@ import type { Ingredient, SelectIngredientInput, CreateIngredientInput, UpdateIn
 export async function selectIngredients(input: SelectIngredientInput): Promise<Array<Ingredient>> {
     const conditions: Array<SQL<unknown>> = [];
 
-    if (input.id !== undefined) {
-        conditions.push(inArray(ingredientsTable.id, input.id));
-    }
-
-    if (input.name !== undefined) {
-        conditions.push(ilike(ingredientsTable.name, `%${input.name}%`));
-    }
-
-    if (input.created_at_from !== undefined) {
-        conditions.push(gte(ingredientsTable.created_at, input.created_at_from));
-    }
-
-    if (input.created_at_to !== undefined) {
-        conditions.push(lte(ingredientsTable.created_at, input.created_at_to));
-    }
-
-    if (input.updated_at_from !== undefined) {
-        conditions.push(gte(ingredientsTable.updated_at, input.updated_at_from));
-    }
-
-    if (input.updated_at_to !== undefined) {
-        conditions.push(lte(ingredientsTable.updated_at, input.updated_at_to));
-    }
+    if (input.id !== undefined) conditions.push(inArray(ingredientsTable.id, input.id));
+    if (input.name !== undefined) conditions.push(ilike(ingredientsTable.name, `%${input.name}%`));
+    if (input.created_at_from !== undefined) conditions.push(gte(ingredientsTable.created_at, input.created_at_from));
+    if (input.created_at_to !== undefined) conditions.push(lte(ingredientsTable.created_at, input.created_at_to));
+    if (input.updated_at_from !== undefined) conditions.push(gte(ingredientsTable.updated_at, input.updated_at_from));
+    if (input.updated_at_to !== undefined) conditions.push(lte(ingredientsTable.updated_at, input.updated_at_to));
 
     const results = await db.query.ingredientsTable.findMany({
         where: conditions.length > 0 ? and(...conditions) : undefined,

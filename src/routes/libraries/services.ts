@@ -6,34 +6,13 @@ import type { Library, IncludedLibraryFields, SelectLibraryInput, CreateLibraryI
 export async function selectLibraries(input: SelectLibraryInput, includedFields?: IncludedLibraryFields): Promise<Array<Library>> {
     const conditions: Array<SQL<unknown>> = [];
 
-    if (input.id !== undefined) {
-        conditions.push(inArray(librariesTable.id, input.id));
-    }
-
-    if (input.name !== undefined) {
-        conditions.push(ilike(librariesTable.name, `%${input.name}%`));
-    }
-
-    if (input.owner !== undefined) {
-        conditions.push(inArray(librariesTable.owner_id, input.owner));
-    }
-
-    if (input.created_at_from !== undefined) {
-        conditions.push(gte(librariesTable.created_at, input.created_at_from));
-    }
-
-    if (input.created_at_to !== undefined) {
-        conditions.push(lte(librariesTable.created_at, input.created_at_to));
-    }
-
-    if (input.updated_at_from !== undefined) {
-        conditions.push(gte(librariesTable.updated_at, input.updated_at_from));
-    }
-
-    if (input.updated_at_to !== undefined) {
-        conditions.push(lte(librariesTable.updated_at, input.updated_at_to));
-    }
-
+    if (input.id !== undefined) conditions.push(inArray(librariesTable.id, input.id));
+    if (input.name !== undefined) conditions.push(ilike(librariesTable.name, `%${input.name}%`));
+    if (input.owner !== undefined) conditions.push(inArray(librariesTable.owner_id, input.owner));
+    if (input.created_at_from !== undefined) conditions.push(gte(librariesTable.created_at, input.created_at_from));
+    if (input.created_at_to !== undefined) conditions.push(lte(librariesTable.created_at, input.created_at_to));
+    if (input.updated_at_from !== undefined) conditions.push(gte(librariesTable.updated_at, input.updated_at_from));
+    if (input.updated_at_to !== undefined) conditions.push(lte(librariesTable.updated_at, input.updated_at_to));
 
     const results = await db.query.librariesTable.findMany({
         where: conditions.length > 0 ? and(...conditions) : undefined,
@@ -52,10 +31,7 @@ export async function selectLibraries(input: SelectLibraryInput, includedFields?
     return results.map((library) => ({
         id: library.id,
         name: library.name,
-        owner: includedFields?.includes("owner")
-            ? library.owner : {
-                id: library.owner_id,
-            },
+        owner: includedFields?.includes("owner") ? library.owner : { id: library.owner_id },
         created_at: library.created_at,
         updated_at: library.updated_at,
     })) as Array<Library>;
@@ -95,10 +71,7 @@ export async function selectLibraryById(id: string, includedFields?: IncludedLib
     return result ? {
         id: result.id,
         name: result.name,
-        owner: includedFields?.includes("owner")
-            ? result.owner : {
-                id: result.owner_id,
-            },
+        owner: includedFields?.includes("owner") ? result.owner : { id: result.owner_id },
         created_at: result.created_at,
         updated_at: result.updated_at
     } as Library : null;
