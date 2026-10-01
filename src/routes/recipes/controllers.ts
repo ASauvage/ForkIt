@@ -12,7 +12,6 @@ export async function getRecipes(req: Request, res: Response, next: NextFunction
         
         res.status(200).json({ recipes })
     } catch (error) {
-        console.error(error);
         next(error);
     }
 }
