@@ -28,3 +28,8 @@ export interface CreateUserInput {
 }
 
 export type UpdateUserInput = Partial<CreateUserInput>;
+
+export interface SessionLoginInput {
+    mail: string;
+    password: string;
+}

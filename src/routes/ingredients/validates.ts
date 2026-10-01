@@ -81,7 +81,7 @@ export function validateGetIngredients(req: Request, res: Response, next: NextFu
         return;
     }
 
-    res.locals.selectIngredientInput = input;
+    res.locals.selectInput = input;
     next();
 }
 
@@ -101,7 +101,7 @@ export function validatePostIngredient(req: Request, res: Response, next: NextFu
         return;
     }
 
-    res.locals.createIngredientInput = input;
+    res.locals.createInput = input;
     next();
 }
 
@@ -131,6 +131,6 @@ export function validatePatchIngredient(req: Request, res: Response, next: NextF
         return;
     }
 
-    res.locals.updateIngredientInput = input;
+    res.locals.updateInput = input;
     next();
 }

@@ -5,7 +5,7 @@ import * as ingredientsServices from "./services.js";
 
 export async function getIngredients(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const ingredients: Array<Ingredient> = await ingredientsServices.selectIngredients(res.locals.selectIngredientInput as SelectIngredientInput);
+        const ingredients: Array<Ingredient> = await ingredientsServices.selectIngredients(res.locals.selectInput as SelectIngredientInput);
         
         res.status(200).json({ data: ingredients })
     } catch (error) {
@@ -15,7 +15,7 @@ export async function getIngredients(req: Request, res: Response, next: NextFunc
 
 export async function postIngredient(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const ingredient: Ingredient = await ingredientsServices.insertIngredient(res.locals.createIngredientInput as CreateIngredientInput);
+        const ingredient: Ingredient = await ingredientsServices.insertIngredient(res.locals.createInput as CreateIngredientInput);
 
         res.status(200).json({ ingredient });
     } catch (error) {
@@ -41,7 +41,7 @@ export async function patchIngredient(req: Request, res: Response, next: NextFun
     try {
         const ingredient: Ingredient | null = await ingredientsServices.updateIngredient(
             req.params.id as string,
-            res.locals.updateIngredientInput as UpdateIngredientInput
+            res.locals.updateInput as UpdateIngredientInput
         );
 
         if (!ingredient) {

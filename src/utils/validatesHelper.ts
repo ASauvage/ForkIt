@@ -1,3 +1,5 @@
+import type { JwtPayload } from "jsonwebtoken";
+
 export function isNonEmptyString(value: unknown): boolean {
     return typeof value === 'string' && value.trim().length > 0;
 }
@@ -31,5 +33,14 @@ export function isValidDate(value: unknown): boolean {
 export function hasQueryParams(query: Record<string, unknown>, excluded: Array<string>): boolean {
     return Object.keys(query).some(
         (key) => !excluded.includes(key)
+    );
+}
+
+export function isJwtPayload(value: string | JwtPayload): boolean {
+    return (
+        typeof value === "object" &&
+        value !== null &&
+        typeof value.sub === "string" &&
+        typeof value.permissions === "number"
     );
 }

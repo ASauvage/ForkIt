@@ -6,7 +6,7 @@ import * as librariesServices from "./services.js";
 export async function getLibraries(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         const libraries: Array<Library> = await librariesServices.selectLibraries(
-            res.locals.selectLibraryInput as SelectLibraryInput,
+            res.locals.selectInput as SelectLibraryInput,
             res.locals.includedFields as IncludedLibraryFields
         );
         
@@ -19,8 +19,8 @@ export async function getLibraries(req: Request, res: Response, next: NextFuncti
 export async function postLibrary(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         const library: Library = await librariesServices.insertLibrary(
-            "ownerId" as string,
-            res.locals.createLibraryInput as CreateLibraryInput
+            req.user!.id as string,
+            res.locals.createInput as CreateLibraryInput
         );
 
         res.status(200).json({ library });
@@ -50,7 +50,7 @@ export async function patchLibrary(req: Request, res: Response, next: NextFuncti
     try {
         const library: Library | null = await librariesServices.updateLibrary(
             req.params.id as string,
-            res.locals.updateLibraryInput as UpdateLibraryInput
+            res.locals.updateInput as UpdateLibraryInput
         );
 
         if (!library) {

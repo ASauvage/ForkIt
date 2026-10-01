@@ -5,7 +5,7 @@ import * as tagsServices from "./services.js";
 
 export async function getTags(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const tags: Array<Tag> = await tagsServices.selectTags(res.locals.selectTagInput as SelectTagInput);
+        const tags: Array<Tag> = await tagsServices.selectTags(res.locals.selectInput as SelectTagInput);
         
         res.status(200).json({ data: tags })
     } catch (error) {
@@ -15,7 +15,7 @@ export async function getTags(req: Request, res: Response, next: NextFunction): 
 
 export async function postTag(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const tag: Tag = await tagsServices.insertTag(res.locals.createTagInput as CreateTagInput);
+        const tag: Tag = await tagsServices.insertTag(res.locals.createInput as CreateTagInput);
 
         res.status(200).json({ tag });
     } catch (error) {
@@ -41,7 +41,7 @@ export async function patchTag(req: Request, res: Response, next: NextFunction):
     try {
         const tag: Tag | null = await tagsServices.updateTag(
             req.params.id as string,
-            res.locals.updateTagInput as UpdateTagInput
+            res.locals.updateInput as UpdateTagInput
         );
 
         if (!tag) {

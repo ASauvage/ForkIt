@@ -104,7 +104,7 @@ export function validateGetLibraries(req: Request, res: Response, next: NextFunc
         return;
     }
 
-    res.locals.selectLibraryInput = input;
+    res.locals.selectInput = input;
     res.locals.includedFields = included;
     next();
 }
@@ -125,7 +125,7 @@ export function validatePostLibrary(req: Request, res: Response, next: NextFunct
         return;
     }
 
-    res.locals.createLibraryInput = input;
+    res.locals.createInput = input;
     next();
 }
 
@@ -175,6 +175,6 @@ export function validatePatchLibrary(req: Request, res: Response, next: NextFunc
         return;
     }
 
-    res.locals.updateLibraryInput = input;
+    res.locals.updateInput = input;
     next();
 }

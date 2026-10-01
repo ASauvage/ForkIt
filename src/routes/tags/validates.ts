@@ -81,7 +81,7 @@ export function validateGetTags(req: Request, res: Response, next: NextFunction)
         return;
     }
 
-    res.locals.selectTagInput = input;
+    res.locals.selectInput = input;
     next();
 }
 
@@ -109,7 +109,7 @@ export function validatePostTag(req: Request, res: Response, next: NextFunction)
         return;
     }
 
-    res.locals.createTagInput = input;
+    res.locals.createInput = input;
     next();
 }
 
@@ -147,6 +147,6 @@ export function validatePatchTag(req: Request, res: Response, next: NextFunction
         return;
     }
 
-    res.locals.updateTagInput = input;
+    res.locals.updateInput = input;
     next();
 }
