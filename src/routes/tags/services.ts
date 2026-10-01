@@ -81,7 +81,10 @@ export async function updateTag(id: string, input: UpdateTagInput): Promise<Tag 
     const updatePayload: Record<string, unknown> = {};
 
     if (input.name !== undefined) updatePayload.name = input.name;
+
     if (input.color !== undefined) updatePayload.color = input.color;
+
+    updatePayload.updated_at = new Date()
 
     const updated = await db
         .update(tagsTable)

@@ -1,9 +1,9 @@
 import type { Request, Response, NextFunction } from "express";
 import { BadRequestError } from "@config/appError.js";
-import type { SelectTagInput, CreateTagInput, UpdateTagInput } from "@app-types/tag.js";
+import type { SelectIngredientInput, CreateIngredientInput, UpdateIngredientInput } from "@app-types/ingredient.js";
 import { isNonEmptyString, isPositiveNumber, isValidDate, isValidUuid, hasQueryParams, isHexColor } from "@utils/validatesHelper.js";
 
-export function validateGetTags(req: Request, res: Response, next: NextFunction): void {
+export function validateGetIngredients(req: Request, res: Response, next: NextFunction): void {
     const {
         id,
         name,
@@ -13,7 +13,7 @@ export function validateGetTags(req: Request, res: Response, next: NextFunction)
         updated_at_to,
         limit
     } = req.query;
-    const input: SelectTagInput = {};
+    const input: SelectIngredientInput = {};
     const errors: Array<string> = [];
 
     if (id !== undefined) {
@@ -81,13 +81,13 @@ export function validateGetTags(req: Request, res: Response, next: NextFunction)
         return;
     }
 
-    res.locals.selectTagInput = input;
+    res.locals.selectIngredientInput = input;
     next();
 }
 
-export function validatePostTag(req: Request, res: Response, next: NextFunction): void {
-    const { name, color } = req.body;
-    const input: CreateTagInput = { name: "" };
+export function validatePostIngredient(req: Request, res: Response, next: NextFunction): void {
+    const { name } = req.body;
+    const input: CreateIngredientInput = { name: "" };
     const errors: Array<string> = [];
 
     if (!isNonEmptyString(name)) {
@@ -96,30 +96,22 @@ export function validatePostTag(req: Request, res: Response, next: NextFunction)
         input.name = name;
     }
 
-    if (color !== undefined) {
-        if(!isHexColor(name)) {
-            errors.push('"color" must be a valid hex color when provided');
-        } else {
-            input.color = color;
-        }
-    }
-
     if (errors.length > 0) {
         next(new BadRequestError(errors.join("\n")));
         return;
     }
 
-    res.locals.createTagInput = input;
+    res.locals.createIngredientInput = input;
     next();
 }
 
-export function validateGetTag(req: Request, res: Response, next: NextFunction): void {
+export function validateGetIngredient(req: Request, res: Response, next: NextFunction): void {
     next();
 }
 
-export function validatePatchTag(req: Request, res: Response, next: NextFunction): void {
-    const { name, color } = req.body;
-    const input: UpdateTagInput = {};
+export function validatePatchIngredient(req: Request, res: Response, next: NextFunction): void {
+    const { name } = req.body;
+    const input: UpdateIngredientInput = {};
     const errors: Array<string> = [];
 
     if (Object.keys(req.body ?? {}).length === 0) {
@@ -134,19 +126,11 @@ export function validatePatchTag(req: Request, res: Response, next: NextFunction
         }
     }
 
-    if (color !== undefined) {
-        if (!isHexColor(color)) {
-            errors.push('"color" must be a valid hex color when provided')
-        } else {
-            input.name = name;
-        }
-    }
-
     if (errors.length > 0) {
         next(new BadRequestError(errors.join("\n")));
         return;
     }
 
-    res.locals.updateTagInput = input;
+    res.locals.updateIngredientInput = input;
     next();
 }

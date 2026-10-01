@@ -109,6 +109,8 @@ export async function updateLibrary(id: string, input: UpdateLibraryInput): Prom
 
     if (input.name !== undefined) updatePayload.name = input.name;
 
+    updatePayload.updated_at = new Date()
+
     const updated = await db
         .update(librariesTable)
         .set(updatePayload)
