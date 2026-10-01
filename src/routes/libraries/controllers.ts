@@ -10,7 +10,7 @@ export async function getLibraries(req: Request, res: Response, next: NextFuncti
             res.locals.includedFields as IncludedLibraryFields
         );
         
-        res.status(200).json({ data: libraries })
+        res.status(200).json({ libraries })
     } catch (error) {
         next(error);
     }
@@ -23,7 +23,7 @@ export async function postLibrary(req: Request, res: Response, next: NextFunctio
             res.locals.createInput as CreateLibraryInput
         );
 
-        res.status(200).json({ library });
+        res.status(201).json({ library });
     } catch (error) {
         next(error);
     }
@@ -36,11 +36,7 @@ export async function getLibrary(req: Request, res: Response, next: NextFunction
             res.locals.includedFields as IncludedLibraryFields
         );
 
-        if (!library) {
-            next(new NotFoundError());
-        } else {
-            res.status(200).json({ library });
-        }
+        res.status(library ? 200 : 404).json({ library });
     } catch (error) {
         next(error);
     }

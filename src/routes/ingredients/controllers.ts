@@ -7,7 +7,7 @@ export async function getIngredients(req: Request, res: Response, next: NextFunc
     try {
         const ingredients: Array<Ingredient> = await ingredientsServices.selectIngredients(res.locals.selectInput as SelectIngredientInput);
         
-        res.status(200).json({ data: ingredients })
+        res.status(200).json({ ingredients })
     } catch (error) {
         next(error);
     }
@@ -17,7 +17,7 @@ export async function postIngredient(req: Request, res: Response, next: NextFunc
     try {
         const ingredient: Ingredient = await ingredientsServices.insertIngredient(res.locals.createInput as CreateIngredientInput);
 
-        res.status(200).json({ ingredient });
+        res.status(201).json({ ingredient });
     } catch (error) {
         next(error);
     }
@@ -27,11 +27,7 @@ export async function getIngredient(req: Request, res: Response, next: NextFunct
     try {
         const ingredient: Ingredient | null = await ingredientsServices.selectIngredientById(req.params.id as string);
 
-        if (!ingredient) {
-            next(new NotFoundError());
-        } else {
-            res.status(200).json({ ingredient });
-        }
+        res.status(ingredient ? 200 : 404).json({ ingredient });
     } catch (error) {
         next(error);
     }

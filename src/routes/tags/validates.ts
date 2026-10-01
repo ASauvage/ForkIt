@@ -97,7 +97,7 @@ export function validatePostTag(req: Request, res: Response, next: NextFunction)
     }
 
     if (color !== undefined) {
-        if(!isHexColor(name)) {
+        if(!isHexColor(color)) {
             errors.push('"color" must be a valid hex color when provided');
         } else {
             input.color = color;

@@ -7,7 +7,7 @@ export async function getTags(req: Request, res: Response, next: NextFunction): 
     try {
         const tags: Array<Tag> = await tagsServices.selectTags(res.locals.selectInput as SelectTagInput);
         
-        res.status(200).json({ data: tags })
+        res.status(200).json({ tags })
     } catch (error) {
         next(error);
     }
@@ -17,7 +17,7 @@ export async function postTag(req: Request, res: Response, next: NextFunction): 
     try {
         const tag: Tag = await tagsServices.insertTag(res.locals.createInput as CreateTagInput);
 
-        res.status(200).json({ tag });
+        res.status(201).json({ tag });
     } catch (error) {
         next(error);
     }
@@ -27,11 +27,7 @@ export async function getTag(req: Request, res: Response, next: NextFunction): P
     try {
         const tag: Tag | null = await tagsServices.selectTagById(req.params.id as string);
 
-        if (!tag) {
-            next(new NotFoundError());
-        } else {
-            res.status(200).json({ tag });
-        }
+        res.status(tag ? 200 : 404).json({ tag });
     } catch (error) {
         next(error);
     }
